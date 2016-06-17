@@ -1,13 +1,8 @@
 package ggikko.me.stickyheaderapp;
 
-import android.annotation.TargetApi;
-import android.os.Build;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
-import android.view.ViewTreeObserver;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -33,16 +28,6 @@ public class MainActivity extends AppCompatActivity implements ChangeInterface {
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
-
-        scroll1.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
-            @Override
-            public void onScrollChanged() {
-//                Log.e("ggikko", "scroll1 Y " + scroll1.getY());
-//                Log.e("ggikko", "old scroll1 Y " + scroll1.getScrollY());
-//                Log.e("ggikko","scroll 2 get y" + scroll2.getScrollY());
-//                scroll1_text.setY(scroll2.getY());
-            }
-        });
     }
 
     @Override
@@ -93,6 +78,17 @@ public class MainActivity extends AppCompatActivity implements ChangeInterface {
     private void setHeaderLocation(float height, TextView... textViews){
         for(TextView textView : textViews) textView.setY(height);
         textViews[0].setY(0);
+    }
+
+    /** 화면 해상도에 따른 변화 대응 */
+    private float dpToPx(float yValue){
+        final float scale = getResources().getDisplayMetrics().density;
+        return yValue * scale + 0.5f;
+    }
+
+    private float pxToDp(float yValue){
+        final float scale = getResources().getDisplayMetrics().density;
+        return (yValue - 0.5f)/scale;
     }
 
 }
